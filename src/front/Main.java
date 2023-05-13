@@ -3,6 +3,7 @@ package front;
 import java.util.Scanner;
 
 import back.Banco;
+import back.BancoServices;
 
 public class Main {
 
@@ -10,6 +11,10 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		boolean sair = false;
 		Banco banco = new Banco();
+		int numeroDaConta;
+		boolean isValid = true;
+		
+		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
 		System.out.println("-------------Bem vindo ao banco GC---------------");	
 		
@@ -27,7 +32,25 @@ public class Main {
 		
 		switch(opcao) {	
 		case 1:
-			//Aqui será chamado o serviço para criar a conta no banco;
+			do {
+				System.out.print("Por favor, digite o número da conta: ");
+				numeroDaConta = sc.nextInt();
+				System.out.println();
+				isValid = bancoServices.criarConta(numeroDaConta);
+				if(isValid) {
+					System.out.println("Conta criada com sucesso!");
+				}else {
+					System.out.println("Número da conta já existe!!!");
+				};
+				
+				
+				
+				
+				
+				
+			}while(!isValid);
+
+			
 			break;
 		case 2:
 			//Aqui será chamado o serviço para verificar saldo da conta;
@@ -48,6 +71,7 @@ public class Main {
 			sair = true;
 		}
 		
+		System.out.println();
 		}while(!sair);
 		
 		System.out.println("Obrigado por utilizar nossos serviços! Tenha um ótimo dia.");
