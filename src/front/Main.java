@@ -7,6 +7,7 @@ import back.BancoServices;
 
 public class Main {
 
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		boolean sair = false;
@@ -53,7 +54,15 @@ public class Main {
 			
 			break;
 		case 2:
-			//Aqui será chamado o serviço para verificar saldo da conta;
+			System.out.print("Por favor, digite o número da conta: ");
+			numeroDaConta = sc.nextInt();
+			System.out.println();
+			double saldo = bancoServices.consultarSaldo(numeroDaConta);
+			if(saldo >= 0d) {
+				System.out.println("O saldo atual da conta " + numeroDaConta + " eh: " + saldo);
+			}else {
+				System.out.println("Conta inexistente");
+			};
 			break;
 		case 3:
 			//Aqui será chamado o serviço para depositar valor na conta;
