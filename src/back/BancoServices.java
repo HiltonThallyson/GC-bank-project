@@ -53,6 +53,19 @@ public class BancoServices {
 //		
 //	}
 
+	public boolean depositarValor(int numeroDaConta,double valor) {
+			
+			for(int i=0; i<banco.getContas().size(); i++) {
+				if(banco.getContas().get(i).getNumeroDaConta() == numeroDaConta) {
+					
+					banco.getContas().get(i).incrementarSaldo(valor);
+					return true;
+					
+				}
+			}
+			return false;
+			
+	}
 	public boolean checarNumeroDaConta(int numeroDaConta) {
 		for(int i=0; i<banco.getContas().size(); i++) {
 			if(banco.getContas().get(i).getNumeroDaConta() == numeroDaConta) {
@@ -62,4 +75,6 @@ public class BancoServices {
 		}
 		return true;
 	}
+	
+	
 }
