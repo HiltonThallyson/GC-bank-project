@@ -1,5 +1,6 @@
 package front;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import back.Banco;
@@ -86,7 +87,55 @@ public class Main {
 			//Aqui será chamado o serviço para sacar valor da conta;
 			break;
 		case 5:
-			//Aqui será chamado o serviço para transferir valores entre contas;
+			// serviço para transferir valores entre contas
+			Integer numeroDaContaOrigem = null;
+			boolean isInvalidNumber = true;
+			do {
+				System.out.println("Digite o número da conta de origem");
+				try {
+					numeroDaContaOrigem = sc.nextInt();
+					isInvalidNumber = false;
+				} catch (InputMismatchException e) {
+					System.out.println("Erro: O número de conta deve ser um inteiro\n");
+				}
+			} while (isInvalidNumber);
+
+			Integer numeroDaContaDestino = null;
+			isInvalidNumber = true;
+			do {
+				System.out.println("Digite o número da conta de destino");
+				try {
+					numeroDaContaDestino = sc.nextInt();
+					isInvalidNumber = false;
+				} catch (InputMismatchException e) {
+					System.out.println("Erro: O número de conta deve ser um inteiro\n");
+				}
+			} while (isInvalidNumber);
+
+			valor = 0;
+			isInvalidNumber = true;
+			do {
+				System.out.println("Qual valor deseja transferir?");
+				try {
+					valor = sc.nextDouble();
+					isInvalidNumber = false;
+				} catch (InputMismatchException e) {
+					System.out.println("Erro: O valor a ser transferido deve ser um número\n");
+				}
+			} while (isInvalidNumber);
+
+			int isOpSuccessful = bancoServices.transferir(numeroDaContaOrigem, numeroDaContaDestino, valor);
+			if (isOpSuccessful == -1) {
+				System.out.println("Conta de origem não encontrada! Tente novamente.");
+			} else if(isOpSuccessful == -2) {
+				System.out.println("Conta de destino não encontrada! Tente novamente.");
+			} else {
+				System.out.println("Transferência de " + valor +
+						" da conta " + numeroDaContaOrigem +
+						" para a conta " + numeroDaContaDestino +
+						" realizada com sucesso!");
+			}
+
 			break;
 		case 6:
 			sair = true;
