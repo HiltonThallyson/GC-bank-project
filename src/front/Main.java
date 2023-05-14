@@ -1,5 +1,7 @@
 package front;
 
+import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import back.Banco;
@@ -83,8 +85,53 @@ public class Main {
 			
 			break;
 		case 4:
-			//Aqui será chamado o serviço para sacar valor da conta;
-			break;
+			// Aqui será chamado o serviço para sacar valor da conta;
+			Integer numeroConta = null;
+
+			double valor = 0;
+			try {
+				boolean isInvalidNumber = true;
+				do {
+					System.out.println("Qual o número da conta?");
+					try {
+						numeroConta = sc.nextInt();
+						isInvalidNumber = false;
+
+					} catch (InputMismatchException e) {
+						System.out.println("Erro: O número de conta deve ser um inteiro\n");
+					}
+
+				} while (isInvalidNumber);
+
+				valor = 0;
+				boolean isInvalidValue = true;
+				do {
+					System.out.println("Qual o valor deseja sacar?");
+
+					try {
+						valor = sc.nextDouble();
+						isInvalidValue = false;
+
+					} catch (InputMismatchException e) {
+						System.out.println("Erro: O valor a ser sacado deve ser um número\n");
+
+					}
+
+				} while (isInvalidValue);
+
+				if (bancoServices.debitar(numeroConta, valor)) {
+					System.out.println("Operação realizada com sucesso!\n");
+				} else {
+					System.out.println("Conta não encontrada! Operação cancelada.\n");
+				}
+
+				break;
+
+			} catch (Exception e) {
+				System.out.println("Erro ao realizar operação, tente novamente.\n");
+				break;
+			}
+
 		case 5:
 			//Aqui será chamado o serviço para transferir valores entre contas;
 			break;
