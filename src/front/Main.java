@@ -2,10 +2,12 @@ package front;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 
 import back.Banco;
 import back.BancoServices;
+import back.Conta;
 
 public class Main {
 
@@ -60,12 +62,15 @@ public class Main {
 			System.out.print("Por favor, digite o número da conta: ");
 			numeroDaConta = sc.nextInt();
 			System.out.println();
-			double saldo = bancoServices.consultarSaldo(numeroDaConta);
-			if(saldo >= 0d) {
-				System.out.println("O saldo atual da conta " + numeroDaConta + " eh: " + saldo);
-			}else {
-				System.out.println("Conta inexistente");
-			};
+			Optional<Conta> conta = bancoServices.consultarSaldo(numeroDaConta);
+			conta.ifPresentOrElse(
+				c -> {
+					System.out.println("O saldo atual da conta eh: " + conta.get().getSaldo());
+				},
+				() -> {
+					System.out.println("Conta inexistente");
+				}
+			);
 			break;
 		case 3:
 			isValid = false;
@@ -97,7 +102,7 @@ public class Main {
 			// Aqui será chamado o serviço para sacar valor da conta;
 			Integer numeroConta = null;
 
-			double valor = 0;
+			double valorASacar = 0;
 			try {
 				boolean isInvalidNumber = true;
 				do {
@@ -112,13 +117,13 @@ public class Main {
 
 				} while (isInvalidNumber);
 
-				valor = 0;
+				valorASacar = 0;
 				boolean isInvalidValue = true;
 				do {
 					System.out.println("Qual o valor deseja sacar?");
 
 					try {
-						valor = sc.nextDouble();
+						valorASacar = sc.nextDouble();
 						isInvalidValue = false;
 
 					} catch (InputMismatchException e) {
@@ -128,7 +133,7 @@ public class Main {
 
 				} while (isInvalidValue);
 
-				if (bancoServices.debitar(numeroConta, valor)) {
+				if (bancoServices.debitar(numeroConta, valorASacar)) {
 					System.out.println("Operação realizada com sucesso!\n");
 				} else {
 					System.out.println("Conta não encontrada! Operação cancelada.\n");

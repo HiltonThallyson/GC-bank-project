@@ -25,16 +25,16 @@ public class BancoServices {
 		
 	}
 
-	public double consultarSaldo (int numeroDaConta) {
+	public Optional<Conta> consultarSaldo (int numeroDaConta) {
 
-		Optional<Conta> conta = this
-								.banco
-								.getContas()
-								.stream()
-								.filter(c -> c.getNumeroDaConta() == numeroDaConta)
-								.findFirst();
+		return
+			 this
+			.banco
+			.getContas()
+			.stream()
+			.filter(c -> c.getNumeroDaConta() == numeroDaConta)
+			.findFirst();
 
-		return conta.isPresent() ? conta.get().getSaldo() : -1d;
 	}
 
 	public boolean debitar(int numeroDaConta, double valor) {
