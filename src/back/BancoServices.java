@@ -1,7 +1,10 @@
 package back;
 
 
+
 import java.util.Optional;
+import java.util.Objects;
+
 
 public class BancoServices {
 	Banco banco;
@@ -31,6 +34,21 @@ public class BancoServices {
 								.findFirst();
 
 		return conta.isPresent() ? conta.get().getSaldo() : -1d;
+	}
+
+	public boolean debitar(int numeroDaConta, double valor) {
+
+		for (Conta c : banco.getContas()) {
+			if(c.getNumeroDaConta() == numeroDaConta) {
+
+				c.decrementarSaldo(valor);
+
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 //	public void verificarSaldo(Scanner sc) {
@@ -63,6 +81,19 @@ public class BancoServices {
 //		
 //	}
 
+	public boolean depositarValor(int numeroDaConta,double valor) {
+			
+			for(int i=0; i<banco.getContas().size(); i++) {
+				if(banco.getContas().get(i).getNumeroDaConta() == numeroDaConta) {
+					
+					banco.getContas().get(i).incrementarSaldo(valor);
+					return true;
+					
+				}
+			}
+			return false;
+			
+	}
 	public boolean checarNumeroDaConta(int numeroDaConta) {
 		for(int i=0; i<banco.getContas().size(); i++) {
 			if(banco.getContas().get(i).getNumeroDaConta() == numeroDaConta) {
@@ -72,4 +103,6 @@ public class BancoServices {
 		}
 		return true;
 	}
+	
+	
 }
