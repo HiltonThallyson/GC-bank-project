@@ -1,6 +1,7 @@
 package back;
 
 
+import java.util.Objects;
 
 import java.util.Optional;
 import java.util.Objects;
@@ -102,6 +103,33 @@ public class BancoServices {
 			}
 		}
 		return true;
+	}
+
+	private Conta getConta(int numeroDaConta) {
+
+		for (Conta c : banco.getContas()) {
+			if (c.getNumeroDaConta() == numeroDaConta) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public int transferir(int numeroDaContaOrigem, int numeroDaContaDestino, double valor) {
+
+		Conta contaOrigen = getConta(numeroDaContaOrigem);
+		Conta contaDestino = getConta(numeroDaContaDestino);
+
+		if (Objects.isNull(contaOrigen)) {
+			return -1;
+		} else if (Objects.isNull(contaDestino)) {
+			return -2;
+		}
+
+		contaOrigen.decrementarSaldo(valor);
+		contaDestino.incrementarSaldo(valor);
+
+		return 0;
 	}
 	
 	
