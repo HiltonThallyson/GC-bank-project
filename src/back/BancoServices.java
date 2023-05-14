@@ -3,6 +3,10 @@ package back;
 
 import java.util.Objects;
 
+import java.util.Optional;
+import java.util.Objects;
+
+
 public class BancoServices {
 	Banco banco;
 	
@@ -19,9 +23,33 @@ public class BancoServices {
 			return false;
 		}
 		
-		
-		
-		
+	}
+
+	public double consultarSaldo (int numeroDaConta) {
+
+		Optional<Conta> conta = this
+								.banco
+								.getContas()
+								.stream()
+								.filter(c -> c.getNumeroDaConta() == numeroDaConta)
+								.findFirst();
+
+		return conta.isPresent() ? conta.get().getSaldo() : -1d;
+	}
+
+	public boolean debitar(int numeroDaConta, double valor) {
+
+		for (Conta c : banco.getContas()) {
+			if(c.getNumeroDaConta() == numeroDaConta) {
+
+				c.decrementarSaldo(valor);
+
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 //	public void verificarSaldo(Scanner sc) {

@@ -1,12 +1,14 @@
 package front;
 
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import back.Banco;
 import back.BancoServices;
 
 public class Main {
+
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -55,7 +57,15 @@ public class Main {
 			
 			break;
 		case 2:
-			//Aqui será chamado o serviço para verificar saldo da conta;
+			System.out.print("Por favor, digite o número da conta: ");
+			numeroDaConta = sc.nextInt();
+			System.out.println();
+			double saldo = bancoServices.consultarSaldo(numeroDaConta);
+			if(saldo >= 0d) {
+				System.out.println("O saldo atual da conta " + numeroDaConta + " eh: " + saldo);
+			}else {
+				System.out.println("Conta inexistente");
+			};
 			break;
 		case 3:
 			isValid = false;
@@ -84,8 +94,53 @@ public class Main {
 			
 			break;
 		case 4:
-			//Aqui será chamado o serviço para sacar valor da conta;
-			break;
+			// Aqui será chamado o serviço para sacar valor da conta;
+			Integer numeroConta = null;
+
+			double valor = 0;
+			try {
+				boolean isInvalidNumber = true;
+				do {
+					System.out.println("Qual o número da conta?");
+					try {
+						numeroConta = sc.nextInt();
+						isInvalidNumber = false;
+
+					} catch (InputMismatchException e) {
+						System.out.println("Erro: O número de conta deve ser um inteiro\n");
+					}
+
+				} while (isInvalidNumber);
+
+				valor = 0;
+				boolean isInvalidValue = true;
+				do {
+					System.out.println("Qual o valor deseja sacar?");
+
+					try {
+						valor = sc.nextDouble();
+						isInvalidValue = false;
+
+					} catch (InputMismatchException e) {
+						System.out.println("Erro: O valor a ser sacado deve ser um número\n");
+
+					}
+
+				} while (isInvalidValue);
+
+				if (bancoServices.debitar(numeroConta, valor)) {
+					System.out.println("Operação realizada com sucesso!\n");
+				} else {
+					System.out.println("Conta não encontrada! Operação cancelada.\n");
+				}
+
+				break;
+
+			} catch (Exception e) {
+				System.out.println("Erro ao realizar operação, tente novamente.\n");
+				break;
+			}
+
 		case 5:
 			// serviço para transferir valores entre contas
 			Integer numeroDaContaOrigem = null;
