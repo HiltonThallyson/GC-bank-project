@@ -1,6 +1,7 @@
 package back;
 
 
+import java.util.Objects;
 
 public class BancoServices {
 	Banco banco;
@@ -21,6 +22,21 @@ public class BancoServices {
 		
 		
 		
+	}
+
+	public boolean debitar(int numeroDaConta, double valor) {
+
+		for (Conta c : banco.getContas()) {
+			if(c.getNumeroDaConta() == numeroDaConta) {
+
+				c.decrementarSaldo(valor);
+
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 //	public void verificarSaldo(Scanner sc) {
