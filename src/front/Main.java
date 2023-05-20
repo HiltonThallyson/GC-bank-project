@@ -205,36 +205,11 @@ public class Main {
 
 			break;
 		case 6:
-		var isDone = false;
-		do{
-			System.out.println("Digite o número da conta:");
-			numeroDaConta = sc.nextInt();
-			if(!bancoServices.checarNumeroDaConta(numeroDaConta)){
 				var taxaDeJuros = 1.0;
 				System.out.println("Digite a taxa de juros em %:");
 				taxaDeJuros = sc.nextDouble();
-				isDone = bancoServices.renderJuros(numeroDaConta, taxaDeJuros);
-				if(!isDone) {
-					System.out.println("A conta selecionada não é uma conta poupança. Operação inválida!");
-					System.out.println("Deseja cancelar a operação? 1 - sim 2 - não");
-				opcao = sc.nextInt();
-					System.out.println();
-					if(opcao == 1) {
-						isDone = true;
-					}
-				}
-			}else {
-				System.out.println("Conta não cadastrada!");
-				System.out.println("Deseja cancelar a operação? 1 - sim 2 - não");
-				opcao = sc.nextInt();
-				System.out.println();
-				if(opcao == 1) {
-					isDone = true;
-				}
-				isDone = false;
-			}
-		}while(!isDone);
-			
+				bancoServices.renderJuros(taxaDeJuros);
+				System.out.println("Rendimentos atualizados com sucesso!");
 			break;
 		default:
 			sair = true;

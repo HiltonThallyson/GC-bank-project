@@ -112,16 +112,14 @@ public class BancoServices {
 		return 0;
 	}
 
-	public boolean renderJuros(int numeroDaConta, double taxaEmPorcentagem) {
-		Conta conta = getConta(numeroDaConta);
+	public void renderJuros(double taxaEmPorcentagem) {
+		
 		final double taxaEmDecimal = taxaEmPorcentagem / 100;
-		if(conta instanceof ContaPoupanca) {
-			((ContaPoupanca) conta).renderJuros(taxaEmDecimal);
-			return true;
-		}else {
-			return false;
+		for (Conta c : banco.getContas()) {
+			if(c instanceof ContaPoupanca) {
+				((ContaPoupanca) c).renderJuros(taxaEmDecimal);
+		}
 		}
 	}
-	
 	
 }
