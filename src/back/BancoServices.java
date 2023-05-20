@@ -37,19 +37,19 @@ public class BancoServices {
 
 	}
 
-	public boolean debitar(int numeroDaConta, double valor) {
+	public int debitar(int numeroDaConta, double valor) {
 
-		for (Conta c : banco.getContas()) {
-			if(c.getNumeroDaConta() == numeroDaConta) {
+		Conta conta = getConta(numeroDaConta);
 
-				c.decrementarSaldo(valor);
-
-				return true;
-			}
+		if (Objects.isNull(conta)) {
+			return -1;
+		} else if (conta.getSaldo() < valor) {
+			return -2;
 		}
 
-		return false;
+		conta.decrementarSaldo(valor);
 
+		return 0;
 	}
 
 //	public void verificarSaldo(Scanner sc) {
@@ -117,16 +117,18 @@ public class BancoServices {
 
 	public int transferir(int numeroDaContaOrigem, int numeroDaContaDestino, double valor) {
 
-		Conta contaOrigen = getConta(numeroDaContaOrigem);
+		Conta contaOrigem = getConta(numeroDaContaOrigem);
 		Conta contaDestino = getConta(numeroDaContaDestino);
 
-		if (Objects.isNull(contaOrigen)) {
+		if (Objects.isNull(contaOrigem)) {
 			return -1;
 		} else if (Objects.isNull(contaDestino)) {
 			return -2;
+		} else if(contaOrigem.getSaldo() < valor) {
+			return -3;
 		}
 
-		contaOrigen.decrementarSaldo(valor);
+		contaOrigem.decrementarSaldo(valor);
 		contaDestino.incrementarSaldo(valor);
 
 		return 0;
