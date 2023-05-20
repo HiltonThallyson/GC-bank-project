@@ -15,10 +15,12 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		boolean sair = false;
+		boolean ehBonus = false;
 		Banco banco = new Banco();
 		int numeroDaConta;
 		boolean isValid = true;
 		double valor;
+		Integer pontuacaoInicial;
 		
 		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
@@ -41,8 +43,11 @@ public class Main {
 			do {
 				System.out.print("Por favor, digite o número da conta: ");
 				numeroDaConta = sc.nextInt();
-				System.out.println();
-				isValid = bancoServices.criarConta(numeroDaConta);
+				System.out.print("Dejesa abrir essa conta como conta bonus? (s/N): " );
+				sc.nextLine();
+				String bonus = sc.nextLine();
+				ehBonus = bonus.equalsIgnoreCase("S");
+				isValid = bancoServices.criarConta(numeroDaConta, ehBonus);
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
 				}else {
