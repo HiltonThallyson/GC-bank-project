@@ -19,6 +19,7 @@ public class Main {
 		int numeroDaConta;
 		boolean isValid = true;
 		double valor;
+		int tipoDaConta = 1;
 		
 		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
@@ -42,17 +43,22 @@ public class Main {
 				System.out.print("Por favor, digite o número da conta: ");
 				numeroDaConta = sc.nextInt();
 				System.out.println();
-				isValid = bancoServices.criarConta(numeroDaConta);
+				System.out.println("Digite o tipo da conta:");
+				System.out.println("1 - Simples");
+				System.out.println("2 - Poupança");
+				tipoDaConta = sc.nextInt();
+				
+				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, tipoDaConta);
+				isValid = resultadoDaCriacaoDeConta == 0 ? true : false;
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
 				}else {
-					System.out.println("Número da conta já existe!!!");
+					if(resultadoDaCriacaoDeConta == -1) {
+						System.out.println("Não foi possivel cadastrar a conta!!!");
+					}else {
+						System.out.println("Tipo de conta inválida!");
+					}
 				};
-				
-				
-				
-				
-				
 				
 			}while(!isValid);
 
