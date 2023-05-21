@@ -133,10 +133,13 @@ public class Main {
 
 				} while (isInvalidValue);
 
-				if (bancoServices.debitar(numeroConta, valorASacar)) {
-					System.out.println("Operação realizada com sucesso!\n");
+				int isOpSuccessful = bancoServices.debitar(numeroConta, valorASacar);
+				if (isOpSuccessful == -1) {
+					System.out.println("Conta não encontrada! Tente novamente.");
+				} else if(isOpSuccessful == -2){
+					System.out.println("Saldo insuficiente! Operação cancelada.");
 				} else {
-					System.out.println("Conta não encontrada! Operação cancelada.\n");
+					System.out.println("Operação realizada com sucesso!");
 				}
 
 				break;
@@ -189,6 +192,8 @@ public class Main {
 				System.out.println("Conta de origem não encontrada! Tente novamente.");
 			} else if(isOpSuccessful == -2) {
 				System.out.println("Conta de destino não encontrada! Tente novamente.");
+			} else if(isOpSuccessful == -3) {
+				System.out.println("Saldo insuficiente! Operação cancelada.");
 			} else {
 				System.out.println("Transferência de " + valor +
 						" da conta " + numeroDaContaOrigem +
