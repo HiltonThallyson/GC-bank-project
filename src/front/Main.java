@@ -14,11 +14,14 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		boolean sair = false;
+		boolean ehBonus = false;
 		Banco banco = new Banco();
 		int numeroDaConta;
 		boolean isValid = true;
 		double valor;
+
 		int tipoDaConta = 1;
+
 		
 		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
@@ -42,14 +45,17 @@ public class Main {
 			do {
 				System.out.print("Por favor, digite o número da conta: ");
 				numeroDaConta = sc.nextInt();
+
 				System.out.println();
 				System.out.println("Digite o tipo da conta:");
 				System.out.println("1 - Simples");
 				System.out.println("2 - Poupança");
+				System.out.println("3 - Bonus");
 				tipoDaConta = sc.nextInt();
 				
 				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, tipoDaConta);
 				isValid = resultadoDaCriacaoDeConta == 0 ? true : false;
+
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
 				}else {

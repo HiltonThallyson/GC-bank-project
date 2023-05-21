@@ -1,8 +1,11 @@
 package back;
 
+import java.util.Optional;
+
 public class Conta {
 	final private int numeroDaConta;
 	private double saldo;
+
 	
 	public Conta(int numeroDaConta) {
 		this.numeroDaConta = numeroDaConta;
@@ -21,7 +24,7 @@ public class Conta {
 		this.saldo = saldo;
 	}
 	
-	public void incrementarSaldo(double valor) {
+	public void incrementarSaldo(double valor, TipoDeTransacao modo) {
 		this.saldo += valor;
 	}
 	

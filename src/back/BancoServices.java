@@ -11,7 +11,7 @@ public class BancoServices {
 	public BancoServices(Banco banco) {
 		this.banco = banco;
 	}
-	
+
 	public int criarConta(int numeroDaConta, int tipoDaConta) {
 		
 		if(checarNumeroDaConta(numeroDaConta)){
@@ -23,15 +23,19 @@ public class BancoServices {
 				case 2:
 					novaConta = new ContaPoupanca(numeroDaConta);
 					break;
+				case 3:
+					novaConta = new ContaBonus(numeroDaConta, 10);
+					break;
 				default:
 					return -2;
 			}
 			banco.getContas().add(novaConta);
 			return 0;
+
 		}else {
 			return -1;
 		}
-		
+
 	}
 
 	public Optional<Conta> consultarSaldo (int numeroDaConta) {
@@ -70,7 +74,7 @@ public class BancoServices {
 			for(int i=0; i<banco.getContas().size(); i++) {
 				if(banco.getContas().get(i).getNumeroDaConta() == numeroDaConta) {
 					
-					banco.getContas().get(i).incrementarSaldo(valor);
+					banco.getContas().get(i).incrementarSaldo(valor, TipoDeTransacao.DEPOSITO);
 					return true;
 					
 				}
@@ -115,8 +119,9 @@ public class BancoServices {
 			return -3;
 		}
 
+
 		contaOrigem.decrementarSaldo(valor);
-		contaDestino.incrementarSaldo(valor);
+		contaDestino.incrementarSaldo(valor, TipoDeTransacao.TRANSFERENCIA);
 
 		return 0;
 	}
