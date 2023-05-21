@@ -16,10 +16,7 @@ public class Conta {
 	public double getSaldo() {
 		return saldo;
 	}
-
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
-	}
+	
 	
 	public void incrementarSaldo(double valor) {
 		this.saldo += valor;
@@ -28,7 +25,5 @@ public class Conta {
 	public void decrementarSaldo(double valor) {
 		this.saldo -= valor;
 	}
-
-	
 	
 }
