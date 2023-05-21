@@ -20,7 +20,9 @@ public class Main {
 		int numeroDaConta;
 		boolean isValid = true;
 		double valor;
-		Integer pontuacaoInicial;
+
+		int tipoDaConta = 1;
+
 		
 		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
@@ -33,7 +35,8 @@ public class Main {
 		System.out.println("3 - Depositar valor");
 		System.out.println("4 - Sacar valor");
 		System.out.println("5 - Transferir valor");
-		System.out.println("6 - Sair");
+		System.out.println("6 - Render juros");
+		System.out.println("8 - Sair");
 		
 		
 		opcao = sc.nextInt();
@@ -43,21 +46,26 @@ public class Main {
 			do {
 				System.out.print("Por favor, digite o número da conta: ");
 				numeroDaConta = sc.nextInt();
-				System.out.print("Dejesa abrir essa conta como conta bonus? (s/N): " );
-				sc.nextLine();
-				String bonus = sc.nextLine();
-				ehBonus = bonus.equalsIgnoreCase("S");
-				isValid = bancoServices.criarConta(numeroDaConta, ehBonus);
+
+				System.out.println();
+				System.out.println("Digite o tipo da conta:");
+				System.out.println("1 - Simples");
+				System.out.println("2 - Poupança");
+				System.out.println("3 - Bonus");
+				tipoDaConta = sc.nextInt();
+				
+				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, tipoDaConta);
+				isValid = resultadoDaCriacaoDeConta == 0 ? true : false;
+
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
 				}else {
-					System.out.println("Número da conta já existe!!!");
+					if(resultadoDaCriacaoDeConta == -1) {
+						System.out.println("Não foi possivel cadastrar a conta!!!");
+					}else {
+						System.out.println("Tipo de conta inválida!");
+					}
 				};
-				
-				
-				
-				
-				
 				
 			}while(!isValid);
 
@@ -138,10 +146,13 @@ public class Main {
 
 				} while (isInvalidValue);
 
-				if (bancoServices.debitar(numeroConta, valorASacar)) {
-					System.out.println("Operação realizada com sucesso!\n");
+				int isOpSuccessful = bancoServices.debitar(numeroConta, valorASacar);
+				if (isOpSuccessful == -1) {
+					System.out.println("Conta não encontrada! Tente novamente.");
+				} else if(isOpSuccessful == -2){
+					System.out.println("Saldo insuficiente! Operação cancelada.");
 				} else {
-					System.out.println("Conta não encontrada! Operação cancelada.\n");
+					System.out.println("Operação realizada com sucesso!");
 				}
 
 				break;
@@ -194,6 +205,8 @@ public class Main {
 				System.out.println("Conta de origem não encontrada! Tente novamente.");
 			} else if(isOpSuccessful == -2) {
 				System.out.println("Conta de destino não encontrada! Tente novamente.");
+			} else if(isOpSuccessful == -3) {
+				System.out.println("Saldo insuficiente! Operação cancelada.");
 			} else {
 				System.out.println("Transferência de " + valor +
 						" da conta " + numeroDaContaOrigem +
@@ -203,7 +216,11 @@ public class Main {
 
 			break;
 		case 6:
-			sair = true;
+				var taxaDeJuros = 1.0;
+				System.out.println("Digite a taxa de juros em %:");
+				taxaDeJuros = sc.nextDouble();
+				bancoServices.renderJuros(taxaDeJuros);
+				System.out.println("Rendimentos atualizados com sucesso!");
 			break;
 		default:
 			sair = true;

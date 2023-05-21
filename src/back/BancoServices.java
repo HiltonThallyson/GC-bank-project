@@ -4,7 +4,6 @@ package back;
 import java.util.Objects;
 
 import java.util.Optional;
-import java.util.Objects;
 
 
 public class BancoServices {
@@ -14,20 +13,28 @@ public class BancoServices {
 		this.banco = banco;
 	}
 
-
-
-	public boolean criarConta(int numeroDaConta, boolean ehContaBonus) {
-
+	public int criarConta(int numeroDaConta, int tipoDaConta) {
+		
 		if(checarNumeroDaConta(numeroDaConta)){
-			banco.getContas().add(
-				ehContaBonus ?
-					new ContaBonus(numeroDaConta, 10)
-					:
-					new Conta(numeroDaConta)
-			);
-			return true;
+			Conta novaConta;
+			switch (tipoDaConta) {
+				case 1:
+					novaConta = new Conta(numeroDaConta);
+					break;
+				case 2:
+					novaConta = new ContaPoupanca(numeroDaConta);
+					break;
+				case 3:
+					novaConta = new ContaBonus(numeroDaConta, 10);
+					break;
+				default:
+					return -2;
+			}
+			banco.getContas().add(novaConta);
+			return 0;
+
 		}else {
-			return false;
+			return -1;
 		}
 
 	}
@@ -44,50 +51,20 @@ public class BancoServices {
 
 	}
 
-	public boolean debitar(int numeroDaConta, double valor) {
+	public int debitar(int numeroDaConta, double valor) {
 
-		for (Conta c : banco.getContas()) {
-			if(c.getNumeroDaConta() == numeroDaConta) {
+		Conta conta = getConta(numeroDaConta);
 
-				c.decrementarSaldo(valor);
-
-				return true;
-			}
+		if (Objects.isNull(conta)) {
+			return -1;
+		} else if (conta.getSaldo() < valor) {
+			return -2;
 		}
 
-		return false;
+		conta.decrementarSaldo(valor);
 
+		return 0;
 	}
-
-//	public void verificarSaldo(Scanner sc) {
-//		
-//		int numeroDaConta;
-//		
-//		boolean isFinished = false;
-//		Conta minhaConta = null;
-//		
-//		do {
-//			System.out.println();
-//			System.out.print("Por favor digite o número da sua conta: ");
-//			numeroDaConta = sc.nextInt();
-//			for(int i=0; i<contas.size(); i++) {
-//				if(numeroDaConta == contas.get(i).getNumeroDaConta()) {
-//					minhaConta = contas.get(i);
-//				}
-//			}
-//			
-//			if(minhaConta == null) {
-//				System.out.println("Conta não encontrada!!!");
-//				isFinished = false;
-//			}else {
-//				isFinished = true;
-//			}
-//		}while(!isFinished);
-//		
-//		System.out.printf("Seu saldo é: R$ %.2f%n", minhaConta.getSaldo());
-//		System.out.println();
-//		
-//	}
 
 	public boolean depositarValor(int numeroDaConta,double valor) {
 			
@@ -124,20 +101,32 @@ public class BancoServices {
 
 	public int transferir(int numeroDaContaOrigem, int numeroDaContaDestino, double valor) {
 
-		Conta contaOrigen = getConta(numeroDaContaOrigem);
+		Conta contaOrigem = getConta(numeroDaContaOrigem);
 		Conta contaDestino = getConta(numeroDaContaDestino);
 
-		if (Objects.isNull(contaOrigen)) {
+		if (Objects.isNull(contaOrigem)) {
 			return -1;
 		} else if (Objects.isNull(contaDestino)) {
 			return -2;
+		} else if(contaOrigem.getSaldo() < valor) {
+			return -3;
 		}
 
-		contaOrigen.decrementarSaldo(valor);
+
+		contaOrigem.decrementarSaldo(valor);
 		contaDestino.incrementarSaldo(valor, TipoDeTransacao.TRANSFERENCIA);
 
 		return 0;
 	}
-	
+
+	public void renderJuros(double taxaEmPorcentagem) {
+		
+		final double taxaEmDecimal = taxaEmPorcentagem / 100;
+		for (Conta c : banco.getContas()) {
+			if(c instanceof ContaPoupanca) {
+				((ContaPoupanca) c).renderJuros(taxaEmDecimal);
+		}
+		}
+	}
 	
 }
