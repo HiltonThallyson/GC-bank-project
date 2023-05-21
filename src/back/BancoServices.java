@@ -2,9 +2,7 @@ package back;
 
 
 import java.util.Objects;
-
 import java.util.Optional;
-import java.util.Objects;
 
 
 public class BancoServices {
@@ -39,8 +37,11 @@ public class BancoServices {
 
 	public int debitar(int numeroDaConta, double valor) {
 
-		Conta conta = getConta(numeroDaConta);
+		if(valor <= 0) {
+			return -3;
+		}
 
+		Conta conta = getConta(numeroDaConta);
 		if (Objects.isNull(conta)) {
 			return -1;
 		} else if (conta.getSaldo() < valor) {
@@ -53,12 +54,12 @@ public class BancoServices {
 	}
 
 //	public void verificarSaldo(Scanner sc) {
-//		
+//
 //		int numeroDaConta;
-//		
+//
 //		boolean isFinished = false;
 //		Conta minhaConta = null;
-//		
+//
 //		do {
 //			System.out.println();
 //			System.out.print("Por favor digite o número da sua conta: ");
@@ -68,7 +69,7 @@ public class BancoServices {
 //					minhaConta = contas.get(i);
 //				}
 //			}
-//			
+//
 //			if(minhaConta == null) {
 //				System.out.println("Conta não encontrada!!!");
 //				isFinished = false;
@@ -76,10 +77,10 @@ public class BancoServices {
 //				isFinished = true;
 //			}
 //		}while(!isFinished);
-//		
+//
 //		System.out.printf("Seu saldo é: R$ %.2f%n", minhaConta.getSaldo());
 //		System.out.println();
-//		
+//
 //	}
 
 	public boolean depositarValor(int numeroDaConta,double valor) {
@@ -116,6 +117,10 @@ public class BancoServices {
 	}
 
 	public int transferir(int numeroDaContaOrigem, int numeroDaContaDestino, double valor) {
+
+		if(valor <= 0) {
+			return -4;
+		}
 
 		Conta contaOrigem = getConta(numeroDaContaOrigem);
 		Conta contaDestino = getConta(numeroDaContaDestino);
