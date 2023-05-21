@@ -1,7 +1,6 @@
 package front;
 
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -119,7 +118,7 @@ public class Main {
 						isInvalidNumber = false;
 
 					} catch (InputMismatchException e) {
-						System.out.println("Erro: O número de conta deve ser um inteiro\n");
+						System.out.println("Erro: O número de conta deve ser um inteiro");
 					}
 
 				} while (isInvalidNumber);
@@ -134,7 +133,7 @@ public class Main {
 						isInvalidValue = false;
 
 					} catch (InputMismatchException e) {
-						System.out.println("Erro: O valor a ser sacado deve ser um número\n");
+						System.out.println("Erro: O valor a ser sacado deve ser um número");
 
 					}
 
@@ -142,9 +141,11 @@ public class Main {
 
 				int isOpSuccessful = bancoServices.debitar(numeroConta, valorASacar);
 				if (isOpSuccessful == -1) {
-					System.out.println("Conta não encontrada! Tente novamente.");
+					System.out.println("Conta não encontrada! Operação cancelada.");
 				} else if(isOpSuccessful == -2){
 					System.out.println("Saldo insuficiente! Operação cancelada.");
+				} else if(isOpSuccessful == -3) {
+					System.out.println("Apenas valores positivos podem ser sacados! Operação cancelada.");
 				} else {
 					System.out.println("Operação realizada com sucesso!");
 				}
@@ -152,7 +153,7 @@ public class Main {
 				break;
 
 			} catch (Exception e) {
-				System.out.println("Erro ao realizar operação, tente novamente.\n");
+				System.out.println("Erro ao realizar operação, tente novamente.");
 				break;
 			}
 
@@ -166,7 +167,7 @@ public class Main {
 					numeroDaContaOrigem = sc.nextInt();
 					isInvalidNumber = false;
 				} catch (InputMismatchException e) {
-					System.out.println("Erro: O número de conta deve ser um inteiro\n");
+					System.out.println("Erro: O número de conta deve ser um inteiro");
 				}
 			} while (isInvalidNumber);
 
@@ -178,7 +179,7 @@ public class Main {
 					numeroDaContaDestino = sc.nextInt();
 					isInvalidNumber = false;
 				} catch (InputMismatchException e) {
-					System.out.println("Erro: O número de conta deve ser um inteiro\n");
+					System.out.println("Erro: O número de conta deve ser um inteiro");
 				}
 			} while (isInvalidNumber);
 
@@ -190,7 +191,7 @@ public class Main {
 					valor = sc.nextDouble();
 					isInvalidNumber = false;
 				} catch (InputMismatchException e) {
-					System.out.println("Erro: O valor a ser transferido deve ser um número\n");
+					System.out.println("Erro: O valor a ser transferido deve ser um número");
 				}
 			} while (isInvalidNumber);
 
@@ -201,6 +202,8 @@ public class Main {
 				System.out.println("Conta de destino não encontrada! Tente novamente.");
 			} else if(isOpSuccessful == -3) {
 				System.out.println("Saldo insuficiente! Operação cancelada.");
+			} else if(isOpSuccessful == -4) {
+				System.out.println("Apenas valores positivos podem ser transferidos! Operação cancelada.");
 			} else {
 				System.out.println("Transferência de " + valor +
 						" da conta " + numeroDaContaOrigem +

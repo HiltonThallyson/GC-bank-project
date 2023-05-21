@@ -2,7 +2,6 @@ package back;
 
 
 import java.util.Objects;
-
 import java.util.Optional;
 
 
@@ -49,8 +48,11 @@ public class BancoServices {
 
 	public int debitar(int numeroDaConta, double valor) {
 
-		Conta conta = getConta(numeroDaConta);
+		if(valor <= 0) {
+			return -3;
+		}
 
+		Conta conta = getConta(numeroDaConta);
 		if (Objects.isNull(conta)) {
 			return -1;
 		} else if (conta.getSaldo() < valor) {
@@ -61,6 +63,7 @@ public class BancoServices {
 
 		return 0;
 	}
+
 
 	public boolean depositarValor(int numeroDaConta,double valor) {
 			
@@ -96,6 +99,10 @@ public class BancoServices {
 	}
 
 	public int transferir(int numeroDaContaOrigem, int numeroDaContaDestino, double valor) {
+
+		if(valor <= 0) {
+			return -4;
+		}
 
 		Conta contaOrigem = getConta(numeroDaContaOrigem);
 		Conta contaDestino = getConta(numeroDaContaDestino);
