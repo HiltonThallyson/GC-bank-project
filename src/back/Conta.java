@@ -1,7 +1,5 @@
 package back;
 
-import java.util.Optional;
-
 public class Conta {
 	final private int numeroDaConta;
 	private double saldo;
