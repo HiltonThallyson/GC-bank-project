@@ -16,7 +16,7 @@ public class ContaBonus extends Conta{
         super.incrementarSaldo(valor, modo);
         switch (modo){
             case TRANSFERENCIA:
-                this.pontuacao += (int) valor/200;
+                this.pontuacao += (int) valor/150;
                 break;
 
             case DEPOSITO:
