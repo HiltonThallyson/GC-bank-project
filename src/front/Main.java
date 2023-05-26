@@ -22,7 +22,6 @@ public class Main {
 
 		int tipoDaConta = 1;
 
-		
 		BancoServices bancoServices = new BancoServices(banco);
 		int opcao;
 		System.out.println("-------------Bem vindo ao banco GC---------------");	
@@ -34,8 +33,7 @@ public class Main {
 		System.out.println("3 - Depositar valor");
 		System.out.println("4 - Sacar valor");
 		System.out.println("5 - Transferir valor");
-		System.out.println("6 - Render juros");
-		System.out.println("8 - Sair");
+		System.out.println("6 - Sair");
 		
 		
 		opcao = sc.nextInt();
@@ -54,7 +52,7 @@ public class Main {
 				tipoDaConta = sc.nextInt();
 
 				double saldo = 0;
-				if (tipoDaConta == 2 ) {
+				if (tipoDaConta == 1 || tipoDaConta == 2) {
 					System.out.print("Por favor, digite o saldo inicial da conta poupança: ");
 					saldo = sc.nextDouble();
 				}
@@ -64,19 +62,16 @@ public class Main {
 
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
+				} else if(resultadoDaCriacaoDeConta == -1){
+					System.out.println("Número de conta já cadastrado! Operação cancelada.");
+				} else if(resultadoDaCriacaoDeConta == -2) {
+					System.out.println("Uma conta pode ser iniciada apenas com valores positivos! Operação cancelada.");
 				} else {
-					if (resultadoDaCriacaoDeConta == -1) {
-						System.out.println("Número de conta já cadastrado! Operação cancelada.");
-					} else if (resultadoDaCriacaoDeConta == -2) {
-						System.out.println("Uma conta pode ser iniciada apenas com valores positivos! Operação cancelada.");
-					} else {
-						System.out.println("Tipo de conta inválida!");
-					}
-				};
+					System.out.println("Tipo de conta inválida!");
+				}
 				
 			} while(!isValid);
 
-			
 			break;
 		case 2:
 			System.out.print("Por favor, digite o número da conta: ");
@@ -231,11 +226,7 @@ public class Main {
 
 			break;
 		case 6:
-				var taxaDeJuros = 1.0;
-				System.out.println("Digite a taxa de juros em %:");
-				taxaDeJuros = sc.nextDouble();
-				bancoServices.renderJuros(taxaDeJuros);
-				System.out.println("Rendimentos atualizados com sucesso!");
+			sair = true;
 			break;
 		default:
 			sair = true;

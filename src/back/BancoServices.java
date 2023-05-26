@@ -23,7 +23,7 @@ public class BancoServices {
 		Conta novaConta;
 		switch (tipoDaConta) {
 			case 1:
-				novaConta = new Conta(numeroDaConta);
+				novaConta = new Conta(numeroDaConta, saldo);
 				break;
 			case 2:
 				novaConta = new ContaPoupanca(numeroDaConta, saldo);
@@ -127,16 +127,6 @@ public class BancoServices {
 		}
 
 		return -5;
-	}
-
-	public void renderJuros(double taxaEmPorcentagem) {
-		
-		final double taxaEmDecimal = taxaEmPorcentagem / 100;
-		for (Conta c : banco.getContas()) {
-			if(c instanceof ContaPoupanca) {
-				((ContaPoupanca) c).renderJuros(taxaEmDecimal);
-		}
-		}
 	}
 	
 }
