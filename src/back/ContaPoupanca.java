@@ -2,8 +2,9 @@ package back;
 
 public class ContaPoupanca extends Conta{
 
-    public ContaPoupanca(int numeroDaConta) {
+    public ContaPoupanca(int numeroDaConta, double saldo) {
         super(numeroDaConta);
+        this.setSaldo(saldo);
     }
 
 

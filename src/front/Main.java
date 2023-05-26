@@ -52,21 +52,29 @@ public class Main {
 				System.out.println("2 - Poupança");
 				System.out.println("3 - Bonus");
 				tipoDaConta = sc.nextInt();
-				
-				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, tipoDaConta);
-				isValid = resultadoDaCriacaoDeConta == 0 ? true : false;
+
+				double saldo = 0;
+				if (tipoDaConta == 2 ) {
+					System.out.print("Por favor, digite o saldo inicial da conta poupança: ");
+					saldo = sc.nextDouble();
+				}
+
+				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, tipoDaConta, saldo);
+				isValid = resultadoDaCriacaoDeConta == 0;
 
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
-				}else {
-					if(resultadoDaCriacaoDeConta == -1) {
-						System.out.println("Não foi possivel cadastrar a conta!!!");
-					}else {
+				} else {
+					if (resultadoDaCriacaoDeConta == -1) {
+						System.out.println("Número de conta já cadastrado! Operação cancelada.");
+					} else if (resultadoDaCriacaoDeConta == -2) {
+						System.out.println("Uma conta pode ser iniciada apenas com valores positivos! Operação cancelada.");
+					} else {
 						System.out.println("Tipo de conta inválida!");
 					}
 				};
 				
-			}while(!isValid);
+			} while(!isValid);
 
 			
 			break;

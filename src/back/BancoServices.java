@@ -12,29 +12,30 @@ public class BancoServices {
 		this.banco = banco;
 	}
 
-	public int criarConta(int numeroDaConta, int tipoDaConta) {
-		
-		if(checarNumeroDaConta(numeroDaConta)){
-			Conta novaConta;
-			switch (tipoDaConta) {
-				case 1:
-					novaConta = new Conta(numeroDaConta);
-					break;
-				case 2:
-					novaConta = new ContaPoupanca(numeroDaConta);
-					break;
-				case 3:
-					novaConta = new ContaBonus(numeroDaConta, 10);
-					break;
-				default:
-					return -2;
-			}
-			banco.getContas().add(novaConta);
-			return 0;
+	public int criarConta(int numeroDaConta, int tipoDaConta, double saldo) {
 
-		}else {
+		if(!checarNumeroDaConta(numeroDaConta)){
 			return -1;
+		} else if(saldo < 0) {
+			return -2;
 		}
+
+		Conta novaConta;
+		switch (tipoDaConta) {
+			case 1:
+				novaConta = new Conta(numeroDaConta);
+				break;
+			case 2:
+				novaConta = new ContaPoupanca(numeroDaConta, saldo);
+				break;
+			case 3:
+				novaConta = new ContaBonus(numeroDaConta, 10);
+				break;
+			default:
+				return -2;
+		}
+		banco.getContas().add(novaConta);
+		return 0;
 
 	}
 
