@@ -41,21 +41,23 @@ public class Main {
 				System.out.print("Por favor, digite o número da conta: ");
 				numeroDaConta = sc.nextInt();
 				System.out.println();
-				isValid = bancoServices.criarConta(numeroDaConta);
+
+				System.out.print("Por favor, informe o saldo inicial da conta: ");
+				double saldo = sc.nextDouble();
+
+				int resultadoDaCriacaoDeConta = bancoServices.criarConta(numeroDaConta, saldo);
+				isValid = resultadoDaCriacaoDeConta == 0;
+
 				if(isValid) {
 					System.out.println("Conta criada com sucesso!");
-				}else {
-					System.out.println("Número da conta já existe!!!");
-				};
+				} else if(resultadoDaCriacaoDeConta == -1){
+					System.out.println("Número de conta já cadastrado! Operação cancelada.");
+				} else if(resultadoDaCriacaoDeConta == -2) {
+					System.out.println("Uma conta pode ser iniciada apenas com valores positivos! Operação cancelada.");
+				}
 				
-				
-				
-				
-				
-				
-			}while(!isValid);
+			} while(!isValid);
 
-			
 			break;
 		case 2:
 			System.out.print("Por favor, digite o número da conta: ");

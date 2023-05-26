@@ -8,7 +8,12 @@ public class Conta {
 		this.numeroDaConta = numeroDaConta;
 		this.saldo = 0;
 	}
-	
+
+	public Conta(int numeroDaConta, double saldo) {
+		this.numeroDaConta = numeroDaConta;
+		this.saldo = saldo;
+	}
+
 	public int getNumeroDaConta() {
 		return numeroDaConta;
 	}
