@@ -12,15 +12,16 @@ public class BancoServices {
 		this.banco = banco;
 	}
 	
-	public boolean criarConta(int numeroDaConta) {
-		
-		if(checarNumeroDaConta(numeroDaConta)){
-			banco.getContas().add(new Conta(numeroDaConta));
-			return true;
-		}else {
-			return false;
+	public int criarConta(int numeroDaConta, double saldo) {
+
+		if(!checarNumeroDaConta(numeroDaConta)){
+			return -1;
+		} else if(saldo < 0) {
+			return -2;
 		}
-		
+
+		banco.getContas().add(new Conta(numeroDaConta, saldo));
+		return 0;
 	}
 
 	public Optional<Conta> consultarSaldo (int numeroDaConta) {
