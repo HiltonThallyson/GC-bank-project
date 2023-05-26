@@ -59,13 +59,13 @@ public class BancoServices {
 		Conta conta = getConta(numeroDaConta);
 		if (Objects.isNull(conta)) {
 			return -1;
-		} else if (conta.getSaldo() < valor) {
+		} else if ((conta instanceof ContaPoupanca) && (conta.getSaldo() < valor)) {
 			return -2;
 		}
 
-		conta.decrementarSaldo(valor);
+		if (conta.decrementarSaldo(valor)) return 0;
 
-		return 0;
+		return -4;
 	}
 
 
@@ -115,15 +115,17 @@ public class BancoServices {
 			return -1;
 		} else if (Objects.isNull(contaDestino)) {
 			return -2;
-		} else if(contaOrigem.getSaldo() < valor) {
+		} else if((contaOrigem instanceof ContaPoupanca) && (contaOrigem.getSaldo() < valor)) {
 			return -3;
 		}
 
 
-		contaOrigem.decrementarSaldo(valor);
-		contaDestino.incrementarSaldo(valor, TipoDeTransacao.TRANSFERENCIA);
+		if(contaOrigem.decrementarSaldo(valor)){
+			contaDestino.incrementarSaldo(valor, TipoDeTransacao.TRANSFERENCIA);
+			return 0;
+		}
 
-		return 0;
+		return -5;
 	}
 
 	public void renderJuros(double taxaEmPorcentagem) {

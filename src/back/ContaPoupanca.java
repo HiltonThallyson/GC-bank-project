@@ -13,7 +13,12 @@ public class ContaPoupanca extends Conta{
         this.setSaldo(saldoFinal);
     }
 
-    
+    @Override
+    public boolean decrementarSaldo(double valor) {
+
+        super.setSaldo( super.getSaldo() - valor );
+        return true;
+    }
 
     
 }

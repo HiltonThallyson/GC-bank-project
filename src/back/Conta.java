@@ -28,8 +28,13 @@ public class Conta {
 		this.saldo += valor;
 	}
 	
-	public void decrementarSaldo(double valor) {
+	public boolean decrementarSaldo(double valor) {
+
+		if (this.saldo - valor < -1000) {
+			return false;
+		}
 		this.saldo -= valor;
+		return true;
 	}
 
 	
