@@ -21,9 +21,12 @@ public class Conta {
 	public double getSaldo() {
 		return saldo;
 	}
-	
-	
-	public void incrementarSaldo(double valor) {
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
+	public void incrementarSaldo(double valor, TipoDeTransacao modo) {
 		this.saldo += valor;
 	}
 	
