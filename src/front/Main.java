@@ -160,6 +160,8 @@ public class Main {
 					System.out.println("Saldo insuficiente! Operação cancelada.");
 				} else if(isOpSuccessful == -3) {
 					System.out.println("Apenas valores positivos podem ser sacados! Operação cancelada.");
+				} else if (isOpSuccessful == -4) {
+					System.out.println("A conta atingiu o limite de cheque especial");
 				} else {
 					System.out.println("Operação realizada com sucesso!");
 				}
@@ -218,6 +220,8 @@ public class Main {
 				System.out.println("Saldo insuficiente! Operação cancelada.");
 			} else if(isOpSuccessful == -4) {
 				System.out.println("Apenas valores positivos podem ser transferidos! Operação cancelada.");
+			} else if(isOpSuccessful == -5) {
+					System.out.println("Conta de origem atingiu o limite de cheque especial");
 			} else {
 				System.out.println("Transferência de " + valor +
 						" da conta " + numeroDaContaOrigem +
