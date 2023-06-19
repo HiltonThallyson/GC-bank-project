@@ -73,7 +73,7 @@ public class BancoServices {
 
 	public boolean depositarValor(int numeroDaConta,double valor) {
 			
-			if(valor <= 0) {
+		if(valor <= 0) {
 			return false;
 		}
 
@@ -86,11 +86,9 @@ public class BancoServices {
 			return false;
 		}
 
-		if (conta.get().decrementarSaldo(valor)) {
+		conta.get().incrementarSaldo(valor, TipoDeTransacao.DEPOSITO);
 			bancoRepository.atualizarConta(conta.get());
 			return true;
-		}
-			return false;
 			
 	}
 
@@ -134,4 +132,15 @@ public class BancoServices {
 		return -5;
 	}
 	
+
+	public void renderJuros(Double taxa) {
+		var contas = bancoRepository.getContas();
+		for (Conta conta : contas) {
+			if(conta instanceof ContaPoupanca) {
+				ContaPoupanca contaP = (ContaPoupanca) conta;
+				contaP.renderJuros(taxa);
+				bancoRepository.atualizarConta(contaP);
+			}
+		}
+	}
 }

@@ -12,7 +12,7 @@ public class ContaPoupanca extends Conta{
 
     public void renderJuros(double taxa) {
         final double saldoAtual = this.getSaldo();
-        double saldoFinal = saldoAtual * (1 + taxa);
+        double saldoFinal = (saldoAtual * (100 + taxa))/100;
         this.setSaldo(saldoFinal);
     }
 
