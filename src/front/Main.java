@@ -10,15 +10,13 @@ import java.net.http.*;
 public class Main {
 
 	private enum Operations {
-		GET_CONTA_BY_ID, GET_CONTAS, POST_CONTA, PUT_CREDITO, PUT_TRANSFERENCIA, DELETE
+		GET_CONTA_BY_ID, GET_CONTAS, POST_CONTA, PUT_CREDITO, PUT_TRANSFERENCIA, PUT_RENDIMENTO
 	}
 
 	private static HttpResponse<String> makeARequest(HttpClient httpClient, HttpRequest httpRequest){
 		try{
 			System.out.println("[INFO]: Making a HTTP Request to " + httpRequest.method() + " " +  httpRequest.uri().toString());
-			var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-//			System.out.println(response.statusCode());
-//			System.out.println(response.body());
+			var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());;
 			return response;
 		}catch (Exception e) {
 
@@ -41,7 +39,7 @@ public class Main {
 						.POST(HttpRequest.BodyPublishers.ofString(bodyGenerator(method, arguments)))
 						.build();
 
-			case PUT_CREDITO, PUT_TRANSFERENCIA:
+			case PUT_CREDITO, PUT_TRANSFERENCIA, PUT_RENDIMENTO:
 				return HttpRequest
 						.newBuilder(URI.create(url))
 						.header("Content-Type", "application/json")
@@ -70,6 +68,11 @@ public class Main {
 						"\t\"from\":" + arguments.get(0) + ",\n" +
 						"\t\"to\":"+ arguments.get(1) + ",\n" +
 						"\t\"valor\":" + arguments.get(2)+ "\n" +
+						"}";
+
+			case PUT_RENDIMENTO:
+				return "{\n" +
+						"\t\"taxa\":" + arguments.get(0) + "\n" +
 						"}";
 			default:
 				return "{}";
@@ -118,7 +121,9 @@ public class Main {
 		System.out.println("3 - Depositar valor");
 		System.out.println("4 - Sacar valor");
 		System.out.println("5 - Transferir valor");
-		System.out.println("6 - Sair");
+		System.out.println("6 - Ver todas as contas");
+		System.out.println("7 - Render Juros");
+		System.out.println("8 - Sair");
 		
 		
 		opcao = sc.nextInt();
@@ -334,9 +339,34 @@ public class Main {
 			}
 
 			break;
+
 		case 6:
-			sair = true;
+			System.out.println();
+			HttpResponse<String> req = makeARequest(client, buildRequest(BASE_URL + "/conta/", Operations.GET_CONTAS, new ArrayList<>()));
+			Optional.ofNullable(req.body()).ifPresentOrElse(
+					(c) -> {
+						System.out.println("Contas abaixo");
+						System.out.println(c);
+					},
+					() -> {
+						System.err.println("[FATAL]: Erro no backend");
+					}
+			);
 			break;
+
+		case 7:
+			System.out.print("Por favor, digite o valor da taxa: ");
+			double taxa = sc.nextDouble();
+			System.out.println();
+			List<String> arg = new ArrayList<>();
+			arg.add(String.valueOf(taxa));
+
+			HttpResponse<String> request = makeARequest(client, buildRequest(BASE_URL + "/conta/rendimento", Operations.PUT_RENDIMENTO, arg));
+
+			if(request.statusCode() == 200) System.out.println("Operação realizada com sucesso");
+			else System.err.println("[FATAL]: Erro no backend");
+			break;
+
 		default:
 			sair = true;
 		}
