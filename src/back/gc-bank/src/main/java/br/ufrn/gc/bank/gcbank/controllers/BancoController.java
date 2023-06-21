@@ -32,7 +32,7 @@ public class BancoController {
         return bancoServices.criarConta(((int)map.get("numeroDaConta")), ((int)map.get("tipoDaConta")), Double.parseDouble(map.get("saldo").toString()));
     }
 
-    @GetMapping("/conta/{id}")
+    @GetMapping("/conta/{numeroDaConta}")
     public Conta getConta(@PathVariable(value = "numeroDaConta") int numeroConta) {
         Optional<Conta> conta = bancoServices.getConta(numeroConta);
         
