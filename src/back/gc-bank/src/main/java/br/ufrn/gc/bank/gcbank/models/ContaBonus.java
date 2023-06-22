@@ -35,4 +35,7 @@ public class ContaBonus extends Conta{
 
     }
 
+    public int getPontuacao() {
+        return pontuacao;
+    }
 }

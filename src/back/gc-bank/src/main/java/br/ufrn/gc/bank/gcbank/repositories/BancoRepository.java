@@ -11,8 +11,12 @@ import br.ufrn.gc.bank.gcbank.models.Conta;
 
 @Repository
 public class BancoRepository {
-    @Autowired
+
 	Banco banco;
+
+    public BancoRepository(Banco banco) {
+        this.banco = banco;
+    }
 
     public void cadastrarConta(Conta conta) {
         banco.getContas().add(conta);
