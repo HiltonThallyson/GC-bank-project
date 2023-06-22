@@ -122,8 +122,9 @@ public class Main {
 		System.out.println("4 - Sacar valor");
 		System.out.println("5 - Transferir valor");
 		System.out.println("6 - Ver todas as contas");
-		System.out.println("7 - Render Juros");
-		System.out.println("8 - Sair");
+		System.out.println("7 - Consultar uma conta pelo número");
+		System.out.println("8 - Render Juros");
+		System.out.println("9 - Sair");
 		
 		
 		opcao = sc.nextInt();
@@ -355,6 +356,22 @@ public class Main {
 			break;
 
 		case 7:
+			System.out.print("Por favor, digite o número da conta: ");
+			numeroDaConta = sc.nextInt();
+			System.out.println();
+			HttpResponse<String> req_ = makeARequest(client, buildRequest(BASE_URL + "/conta/" + numeroDaConta, Operations.GET_CONTA_BY_ID, new ArrayList<>()));
+			Optional.ofNullable(req_).ifPresentOrElse(
+					(c) -> {
+						System.out.println("Conta descrito abaixo");
+						System.out.println(c.body());
+					},
+					() -> {
+						System.out.println("Nenhuma conta foi achada");
+					}
+			);
+			break;
+
+		case 8:
 			System.out.print("Por favor, digite o valor da taxa: ");
 			double taxa = sc.nextDouble();
 			System.out.println();
