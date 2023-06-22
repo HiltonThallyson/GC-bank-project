@@ -1,6 +1,7 @@
 package br.ufrn.gc.bank.gcbank.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.gc.bank.gcbank.enums.TipoDeTransacao;
 import br.ufrn.gc.bank.gcbank.models.Conta;
+import br.ufrn.gc.bank.gcbank.models.ContaPoupanca;
+import br.ufrn.gc.bank.gcbank.models.ContaBonus;
 import br.ufrn.gc.bank.gcbank.services.BancoServices;
 
 @RestController
@@ -33,11 +36,25 @@ public class BancoController {
     }
 
     @GetMapping("/conta/{numeroDaConta}")
-    public Conta getConta(@PathVariable(value = "numeroDaConta") int numeroConta) {
+    public Map<String, String> getConta(@PathVariable(value = "numeroDaConta") int numeroConta) {
         Optional<Conta> conta = bancoServices.getConta(numeroConta);
-        
+        Map<String, String> bodyToReturn = new HashMap<>();
         if(conta.isPresent()) {
-            return conta.get();
+
+            bodyToReturn.put("numero", String.valueOf(conta.get().getNumeroDaConta()));
+            bodyToReturn.put("saldo", String.valueOf(conta.get().getSaldo()));
+
+            if((conta.get() instanceof ContaBonus)){
+                bodyToReturn.put("tipoConta", "conta bonus");
+            }
+            else if (conta.get() instanceof ContaPoupanca) {
+                bodyToReturn.put("tipoConta", "conta poupanca");
+            }
+            else {
+                bodyToReturn.put("tipoConta", "conta simples");
+            }
+
+            return bodyToReturn;
         }
         return null;
     }
