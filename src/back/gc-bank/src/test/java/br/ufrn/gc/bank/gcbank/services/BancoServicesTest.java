@@ -26,6 +26,9 @@ class BancoServicesTest {
         Banco banco = new Banco();
         BancoRepository bancoRepository = new BancoRepository(banco);
         bancoServices = new BancoServices(bancoRepository);
+        bancoServices.criarConta(111, 1, 100);
+        bancoServices.criarConta(222, 2, 100);
+        bancoServices.criarConta(333, 3, 100);
     }
 
 
@@ -120,17 +123,27 @@ class BancoServicesTest {
 
     @Test
     void consultaContaSimples() {
-        // TODO
+        Optional<Conta> conta1 = bancoServices.getConta(111);
+        assertTrue(conta1.isPresent());
+        assertTrue(!(conta1.get() instanceof ContaBonus) && !(conta1.get() instanceof ContaPoupanca));
+        assertEquals(100, conta1.get().getSaldo());
+
     }
 
     @Test
     void consultaContaPoupanca() {
-        // TODO
+        Optional<Conta> conta1 = bancoServices.getConta(222);
+        assertTrue(conta1.isPresent());
+        assertTrue((conta1.get() instanceof ContaPoupanca));
+        assertEquals(100, conta1.get().getSaldo());
     }
 
     @Test
     void consultaContaBonus() {
-        // TODO
+        Optional<Conta> conta1 = bancoServices.getConta(333);
+        assertTrue(conta1.isPresent());
+        assertTrue((conta1.get() instanceof ContaPoupanca));
+        assertEquals(100, conta1.get().getSaldo());
     }
 
     @Test
