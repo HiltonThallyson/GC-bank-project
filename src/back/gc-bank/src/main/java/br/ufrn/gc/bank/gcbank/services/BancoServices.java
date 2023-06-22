@@ -15,8 +15,11 @@ import br.ufrn.gc.bank.gcbank.repositories.BancoRepository;
 @Service
 public class BancoServices {
 
-	@Autowired
 	BancoRepository bancoRepository;
+
+	public BancoServices(BancoRepository bancoRepository) {
+		this.bancoRepository = bancoRepository;
+	}
 
 	public int criarConta(int numeroDaConta, int tipoDaConta, double saldo) {
 		Optional<Conta> conta = bancoRepository.getConta(numeroDaConta);
@@ -45,6 +48,16 @@ public class BancoServices {
 		bancoRepository.cadastrarConta(novaConta);
 		return 0;
 
+	}
+
+	public Double saldo(int numeroDaConta) {
+		Optional<Conta> conta = bancoRepository.getConta(numeroDaConta);
+
+		if (conta.isPresent()) {
+			return conta.get().getSaldo();
+		}
+
+		return null;
 	}
 
 	public int debitar(int numeroDaConta, double valor) {
