@@ -142,8 +142,8 @@ class BancoServicesTest {
     void consultaContaBonus() {
         Optional<Conta> conta1 = bancoServices.getConta(333);
         assertTrue(conta1.isPresent());
-        assertTrue((conta1.get() instanceof ContaPoupanca));
-        assertEquals(100, conta1.get().getSaldo());
+        assertTrue((conta1.get() instanceof ContaBonus));
+        assertEquals(0, conta1.get().getSaldo());
     }
 
     @Test

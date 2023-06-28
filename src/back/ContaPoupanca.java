@@ -2,11 +2,9 @@ package back;
 
 public class ContaPoupanca extends Conta{
 
-    public ContaPoupanca(int numeroDaConta, double saldo) {
+    public ContaPoupanca(int numeroDaConta) {
         super(numeroDaConta);
-        this.setSaldo(saldo);
     }
-
 
     public void renderJuros(double taxa) {
         final double saldoAtual = this.getSaldo();
@@ -14,12 +12,4 @@ public class ContaPoupanca extends Conta{
         this.setSaldo(saldoFinal);
     }
 
-    @Override
-    public boolean decrementarSaldo(double valor) {
-
-        super.setSaldo( super.getSaldo() - valor );
-        return true;
-    }
-
-    
 }
