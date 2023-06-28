@@ -6,4 +6,5 @@
  *
  */
 module bank {
+    requires java.net.http;
 }

@@ -1,8 +1,10 @@
-package back;
+package br.ufrn.gc.bank.gcbank.models;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class Banco {
 	ArrayList<Conta> contas;
 	
