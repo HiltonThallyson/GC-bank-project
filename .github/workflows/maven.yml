@@ -35,6 +35,8 @@ jobs:
       run: mvn test
     - name: Tag build
       run: |
+          git config --global user.email "hilton.machado.088@ufrn.edu.br"
+          git config --global user.name "HiltonThallyson"
           git tag -a build-${{github.run_number}}
           git push origin build-${{github.run_number}}
 
