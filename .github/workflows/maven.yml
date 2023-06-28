@@ -37,7 +37,7 @@ jobs:
       run: |
           git config --global user.email "hilton.machado.088@ufrn.edu.br"
           git config --global user.name "HiltonThallyson"
-          git tag build-${{github.run_number}}
+          git tag -a build-${{github.run_number}} -m "tag build ${{github.run_number}} done"
           git push origin build-${{github.run_number}}
 
     
