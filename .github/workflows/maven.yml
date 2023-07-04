@@ -1,0 +1,53 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven and pmd
+
+on:
+  push:
+    tags:
+      - rc-*.*
+
+
+jobs:   
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Validate with Maven
+      run: mvn validate
+    - name: Compile with Maven
+      run: mvn compile
+    - name: Run PMD
+      id: pmd
+      uses: pmd/pmd-github-action@967a81f8b657c87f7c3e96b62301cb1a48efef29
+      with:
+          rulesets: 'rulesets/java/quickstart.xml'
+          sourcePath: 'src/main/java'
+          analyzeModifiedFilesOnly: false
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          sarif_file: pmd-report.sarif
+    - name: Test with Maven
+      run: mvn test
+    - name: Tag build
+      run: |
+          git config --global user.email "leonandrogurgel@gmail.com"
+          git config --global user.name "Leonandro"
+          git tag -a build-${{github.run_number}} -m "tag build ${{github.run_number}} done"
+          git push origin build-${{github.run_number}}
+
+    
