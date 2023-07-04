@@ -1,11 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Java CI with Maven and pmd
 
 on:
@@ -13,8 +5,17 @@ on:
     tags:
       - rc-*.*
 
-
 jobs:   
+  pmd-code-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    runs-on: ubuntu-latest
+    
+    
+
   build:
     runs-on: ubuntu-latest
     
@@ -47,7 +48,4 @@ jobs:
       run: |
           git config --global user.email "leonandrogurgel@gmail.com"
           git config --global user.name "Leonandro"
-          git tag -a build-${{github.run_number}} -m "tag build ${{github.run_number}} done"
-          git push origin build-${{github.run_number}}
-
-    
+          git tag -a
