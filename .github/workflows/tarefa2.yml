@@ -39,8 +39,8 @@ jobs:
         id: pmd
         uses: pmd/pmd-github-action@v1
         with:
-          rulesets: 'rulesets.xml'
-          sourcePath: 'src/main/java'
+          rulesets: 'src/rulesets.xml'
+          sourcePath: 'src'
           analyzeModifiedFilesOnly: false
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
