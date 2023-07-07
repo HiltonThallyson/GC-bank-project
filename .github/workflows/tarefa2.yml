@@ -66,6 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v3
     - uses: montudor/action-zip@v1
     - name: create zip file
       run: zip -qq -r dir.zip dir
