@@ -64,13 +64,12 @@ jobs:
         
   create-zip:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v3
-    - name: Generate zip
-      uses: thedoctor0/zip-release@0.7.1
-      with:
-        type: 'zip'
-        filename: 'rc.zip'
+    - uses: montudor/action-zip@v1
+    - name: create zip file
+      run: zip -qq -r dir.zip dir
+     
         
   
     
