@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    needs: pmd-code-scan
     runs-on: ubuntu-latest
     
     steps:
@@ -67,12 +68,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
-      - name: Zip Folder
-        run: zip -r release.zip .
-  
-     
-        
+    - name: Checkout do repositório
+      uses: actions/checkout@v3
+
+    - name: Gerar arquivo zip
+      run: |
+        zip -r ${{github.ref_name}}.zip .
+
+    - name: Enviar arquivo zip como artefato
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{github.ref_name}}-zip
+        path: ${{github.ref_name}}.zip
   
     
       
