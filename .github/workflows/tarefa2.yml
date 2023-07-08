@@ -63,8 +63,9 @@ jobs:
         run: mvn test
         
   create-zip:
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v3
     - name: Generate zip
@@ -72,6 +73,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'rc.zip'
+        directory: 'GC-bank-project'
      
         
   
