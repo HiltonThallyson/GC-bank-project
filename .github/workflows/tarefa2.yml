@@ -73,7 +73,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'rc.zip'
-        directory: 'GC-bank-project'
+  
      
         
   
