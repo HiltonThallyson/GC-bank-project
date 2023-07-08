@@ -1,0 +1,86 @@
+name: Java CI with Maven and pmd
+
+on:
+  push:
+    tags:
+      - rc-*.*
+
+jobs:
+  build:
+    needs: pmd-code-scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Validate with Maven
+      run: mvn validate
+    - name: Compile with Maven
+      run: mvn compile
+      
+  pmd-code-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run PMD
+        id: pmd
+        uses: pmd/pmd-github-action@v1
+        with:
+          rulesets: 'src/rulesets.xml'
+          sourcePath: 'src'
+          analyzeModifiedFilesOnly: false
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: pmd-report.sarif
+   
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Test with Maven
+        run: mvn test
+        
+  create-zip:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v3
+
+    - name: Gerar arquivo zip
+      run: |
+        zip -r ${{github.ref_name}}_${{github.run_number}}.zip .
+
+    - name: Enviar arquivo zip como artefato
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{github.ref_name}}_${{github.run_number}}
+        path: ${{github.ref_name}}_${{github.run_number}}.zip
+  
+    
+      
+  
