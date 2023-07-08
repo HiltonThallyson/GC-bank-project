@@ -63,16 +63,13 @@ jobs:
         run: mvn test
         
   create-zip:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    - name: Generate zip
-      uses: thedoctor0/zip-release@0.7.1
-      with:
-        type: 'zip'
-        filename: 'rc.zip'
+      - uses: actions/checkout@v3
+      - name: Zip Folder
+        run: zip -r release.zip .
   
      
         
