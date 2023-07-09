@@ -3,7 +3,7 @@ name: Java CI with Maven and pmd
 on:
   push:
     tags:
-      - rc-*.*
+      - rel-*.*
 
 jobs:
   build:
@@ -99,7 +99,7 @@ jobs:
     - name: Construir imagem docker
       run: docker build -t gc-bank .
     - name: Upload no Docker Hub
-      run: docker push ${{secrets.DOCKER_USER}}/gc-bank-repo
+      run: docker push ${{secrets.DOCKER_USER}}/gcbankrepo
   
     
       
