@@ -104,9 +104,10 @@ jobs:
     - name: Construir imagem docker
       run: | 
         cd src/
-        docker build -t gc-bank:${{github.ref_name}} .
+        docker build -t ${{secrets.DOCKER_USER}}/gc-bank:${{github.ref_name}} .
+        
     - name: Upload no Docker Hub
-      run: docker push ${{secrets.DOCKER_USER}}/gcbankrepo
+      run: docker push ${{secrets.DOCKER_USER}}/gc-bank:${{github.ref_name}}
   
     
       
