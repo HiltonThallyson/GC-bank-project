@@ -80,6 +80,26 @@ jobs:
       with:
         name: ${{github.ref_name}}_${{github.run_number}}
         path: ${{github.ref_name}}_${{github.run_number}}.zip
+
+  update-docker-container:
+    needs: create-zip
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: gerando jar
+      run: |
+        mvn clean package
+    - name: docker login
+      env: 
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Construir imagem docker
+      run: docker build -t gc-bank .
+    - name: Upload no Docker Hub
+      run: docker push ${{secrets.DOCKER_USER}}/gc-bank-repo
   
     
       
