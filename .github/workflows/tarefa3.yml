@@ -102,7 +102,9 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Construir imagem docker
-      run: docker build -t gc-bank -f ./src/Dockerfile
+      run: | 
+        cd src/
+        docker build -t gc-bank .
     - name: Upload no Docker Hub
       run: docker push ${{secrets.DOCKER_USER}}/gcbankrepo
   
